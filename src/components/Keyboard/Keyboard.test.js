@@ -2,7 +2,7 @@ import React from "react";
 import renderer from "react-test-renderer";
 import Keyboard from "./Keyboard";
 
-test("Link changes the class when hovered", () => {
+test("Keyboard should render correctly", () => {
   const component = renderer.create(<Keyboard />);
   let tree = component.toJSON();
   expect(tree).toMatchSnapshot();

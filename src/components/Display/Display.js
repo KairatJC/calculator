@@ -1,8 +1,8 @@
 import React from "react";
-import "./Calc.css";
+import "./Display.css";
 import CalcContext from "../../CalcContext";
 
-function Calc() {
+function Display() {
   return (
     <CalcContext.Consumer>
       {value => {
@@ -43,4 +43,4 @@ function getResult(value) {
   }
 }
 
-export default Calc;
+export default Display;

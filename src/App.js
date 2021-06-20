@@ -1,6 +1,6 @@
 import React from "react";
 import CalcContext from "./CalcContext";
-import Calc from "./components/Calc/Calc";
+import Display from "./components/Display/Display";
 import Keyboard from "./components/Keyboard/Keyboard";
 
 class App extends React.Component {
@@ -27,7 +27,7 @@ class App extends React.Component {
         }}
       >
         <div className="App">
-          <Calc />
+          <Display />
           <Keyboard />
         </div>
       </CalcContext.Provider>
