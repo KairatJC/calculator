@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Link changes the class when hovered 1`] = `
+<div
+  className="calc wrap"
+>
+  <div
+    className="calc-display"
+  >
+    <span />
+  </div>
+</div>
+`;

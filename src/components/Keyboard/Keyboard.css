@@ -1,0 +1,18 @@
+.keyboard {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.numpad {
+  width: 150px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 5px;
+}
+
+.actionpad {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 5px;
+}

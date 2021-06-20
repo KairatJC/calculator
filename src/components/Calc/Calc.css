@@ -1,0 +1,11 @@
+.calc {
+    margin-top: 150px;
+}
+
+.calc-display {
+    word-break: break-all;
+}
+
+.calc-display span {
+    margin-right: 5px;
+}
