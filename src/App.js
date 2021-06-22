@@ -33,7 +33,7 @@ class App extends React.Component {
     );
   }
 
-  buttonHandler(clickedButton) {
+  buttonHandler = clickedButton => {
     if (/\d/.test(clickedButton)) {
       this.numberButtonHandler(clickedButton);
     } else if (clickedButton === ".") {
