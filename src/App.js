@@ -11,8 +11,7 @@ class App extends React.Component {
       oldValue: null,
       operator: null,
       currentValue: "Set Value",
-      isChanged: false,
-      isDecimal: false
+      isChanged: false
     };
   }
 
@@ -34,89 +33,81 @@ class App extends React.Component {
     );
   }
 
-  buttonHandler = value => {
-    if (value === ".") {
-      if (this.state.isDecimal) {
-        return;
-      } else {
-        this.setState(state => ({
-          isDecimal: true
-        }));
-      }
-    }
-
-    if (this.isNumber(value) || value === ".") {
-      this.setState(state => ({
-        currentValue: state.isChanged ? state.currentValue + value : value,
-        isChanged: true
-      }));
-    }
-
-    if (value === "c") {
-      this.resetState();
-    }
-
-    if (this.isOperator(value) && this.state.isChanged) {
-      this.makeOperation(value);
-    }
-
-    if (value === "=" && this.state.isChanged) {
+  buttonHandler = clickedButton => {
+    if (/\d/.test(clickedButton)) {
+      this.numberButtonHandler(clickedButton);
+    } else if (clickedButton === ".") {
+      this.dotButtonHandler();
+    } else if (/[/*+-]/.test(clickedButton)) {
+      this.operatorButtonHandler(clickedButton);
+    } else if (clickedButton === "=" && this.state.isChanged) {
       this.getResult();
+    } else if (clickedButton === "c") {
+      this.resetState();
     }
   };
 
-  isNumber(str) {
-    return /\d/.test(str);
+  numberButtonHandler(number) {
+    let newValue = this.state.isChanged ? this.state.currentValue + number : number;
+    this.setCurrentValue(newValue);
   }
 
-  isOperator(str) {
-    return /[/*+-]/.test(str);
+  dotButtonHandler() {
+    if (this.state.isChanged) {
+      if (!this.state.currentValue.includes("."))
+        this.setCurrentValue(this.state.currentValue + ".");
+    } else {
+      this.setCurrentValue("0.");
+    }
   }
 
-  resetState() {
-    this.setState(state => ({
-      oldValue: null,
-      operator: null,
-      currentValue: "Set Value",
-      isChanged: false,
-      isDecimal: false
-    }));
-  }
-
-  makeOperation(operator) {
+  operatorButtonHandler(operator) {
     if (this.state.oldValue !== null) {
       this.getResult();
     }
+
     this.setState(state => ({
-      oldValue: state.currentValue,
+      oldValue: state.oldValue !== null ? state.oldValue : state.currentValue,
       operator: operator,
-      currentValue: "",
-      isDecimal: false
+      currentValue: state.oldValue === null ? "" : state.currentValue,
+      isChanged: false
+    }));
+  }
+
+  setCurrentValue(value) {
+    this.setState(() => ({
+      currentValue: value,
+      isChanged: true
+    }));
+  }
+
+  resetState() {
+    this.setState(() => ({
+      oldValue: null,
+      operator: null,
+      currentValue: "Set Value",
+      isChanged: false
     }));
   }
 
   getResult() {
-    if (this.state.currentValue === "") return;
+    if (this.state.currentValue === "" || this.state.operator === null) return;
 
     const oldValue = parseFloat(this.state.oldValue);
     const currentValue = parseFloat(this.state.currentValue);
     const operator = this.state.operator;
     this.resetState();
-    this.setState(state => ({
-      currentValue: this.calculate(oldValue, operator, currentValue)
+    this.setState(() => ({
+      currentValue: this.calculate(oldValue, operator, currentValue),
+      isChanged: true
     }));
   }
 
   calculate(operand1, operator, operand2) {
-    if (operator === "+") {
-      return operand1 + operand2;
-    } else if (operator === "-") {
-      return operand1 - operand2;
-    } else if (operator === "*") {
-      return operand1 * operand2;
-    } else if (operator === "/" && operand2 !== 0) {
-      return operand1 / operand2;
+    if (operator === "/" && operand2 === 0) {
+      return "";
     }
+    return eval(operand1 + operator + operand2).toString();
   }
 }
 
